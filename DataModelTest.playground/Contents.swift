@@ -31,7 +31,7 @@ protocol Player: LoginUser, User, Mob {
     var experience: Int { get set }
 }
 
-protocol Monster: Mob {
+protocol MonsterProtocol: Mob {
     var type: MonsterType { get }
 }
 
@@ -97,13 +97,37 @@ struct OtherPlayer: User {
     }
 }
 
-struct Goblin: Monster {
-    var type: MonsterType = .goblin
-    var movementPoints: Int = 2
-    var hitPoints: Int = 5
-    var damageDealt: Int = 1
-    var damageAbsorbed: Int = 0
+struct Monster: MonsterProtocol {
+    var type: MonsterType
+    var movementPoints: Int
+    var hitPoints: Int
+    var damageDealt: Int
+    var damageAbsorbed: Int
     var id: Int
+
+    init(type: MonsterType) {
+        self.type = type
+        switch type {
+        case .mouse:
+            self.movementPoints = 1
+            self.hitPoints = 2
+            self.damageDealt = 1
+            self.damageAbsorbed = 0
+            self.id = 0
+        case .goblin:
+            self.movementPoints = 2
+            self.hitPoints = 4
+            self.damageDealt = 3
+            self.damageAbsorbed = 1
+            self.id = 1
+        case .skeleton:
+            self.movementPoints = 3
+            self.hitPoints = 10
+            self.damageDealt = 5
+            self.damageAbsorbed = 2
+            self.id = 2
+        }
+    }
 
     var name: String {
         "\(type.rawValue) with \(movementPoints) movement points"
@@ -114,10 +138,13 @@ struct Goblin: Monster {
 /*
 
  Project idea 1: Implement a Protocol Oriented Inventory System
+    Stretch: Implement id system so that id is always unique
 
- Project idea 2: Implement SpriteKit, find free sprites to use, and make the player fight a monster
+ Project idea 2: Implement SpriteKit, find free sprites to use, and make the player fight a monster visually
+    Alternate: Have the monsters fight only in text, but show a representation of it by animating the text on the screen
+    Stretch: Implement health bars that track the player and monster's health
 
  Project idea 3: Implement an opt-in PVP system where PVP players can fight PVP players, but non-PVP players and PVP players can't fight each other
-
+    Stretch: Non-PVP Players can opt in to duel another player (PVP or non-PVP) - but only those 2 players can fight each other. Nobody else can interrupt
 
  */
