@@ -1,5 +1,9 @@
 # Data Modeling Guided Project
 
+- [ ]  🛑 Data modeling, very simply put is the act of turning real world (or imagined) objects into data representations.
+    - [ ] We essentially break things down into their parts, and represent those parts. For instance, our Vehicle from yesterday.
+    - [ ] Data modeling is much more complex than that. For our purposes, we want to look at making our data model flexible and easily maintainable, as well as realistic toward achieving whatever goal we set out to achieve.
+    - [ ] Protocols help keep our code easily maintainable by allowing us to break our code down into easily reusable requirements that multiple types can conform to
 - [ ]  🛑 Remember, protocols guarantee that types conforming to them will have certain properties and/or methods
 - [ ]  🛑 Remember, types can conform to multiple protocols and protocols can inherit multiple protocols
 - [ ]  🛑 Instead of making one big protocol, we can make several smaller ones, then combine them into larger ones as necessary. Example Player, User, LoginUser (all players are users, only the current player is a LoginUser)
