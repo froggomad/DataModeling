@@ -3,37 +3,13 @@ import Foundation
 /*
  Scenario, multiplayer game where players can fight monsters, monsters can fight players, but players can't fight other players.
 
+ Assumptions:
+
+ hitpoints <= 0 == Death
+
  Stretch: PVP players can fight PVP players, but  non-PVP players can only fight monsters
 
  */
-
-protocol LoginUser: Identifiable {
-    var password: String { get set }
-    var email: String { get set }
-    var phone: Int? { get set }
-    var birthday: Date? { get }
-}
-
-protocol User: Identifiable, Nameable {
-    // Doesn't need to be considered Mob from our point of view, because we aren't concerned with how fast they move.
-    // We could get updates on their position without having to calculate their speed
-    var firstName: String? { get set }
-    var lastName: String? { get set }
-    var username: String { get }
-}
-
-protocol Mob: Fightable, Identifiable, Nameable {
-    var movementPoints: Int { get set } //in a turn-based game, this could be movement points, in a real time game, this could be movement speed
-}
-
-protocol Player: LoginUser, User, Mob {
-    var magicPoints: Int { get set }
-    var experience: Int { get set }
-}
-
-protocol MonsterProtocol: Mob {
-    var type: MonsterType { get }
-}
 
 protocol Identifiable {
     var id: Int { get }
@@ -46,9 +22,36 @@ protocol Nameable: CustomStringConvertible {
     // Just another example of some implementation you can do with protocol extensions
 }
 
+protocol LoginUser: User {
+    var password: String { get set } //Don't store passwords like this in a live app - use keychain sharing or OAuth or some other form of encrypted data storage
+    var email: String { get set }
+    var phone: Int? { get set }
+    var birthday: Date? { get }
+}
+
+protocol User: Identifiable, Nameable {
+    // Doesn't need to be considered Mob from our point of view, because we aren't concerned with how fast they move.
+    // We could get updates on their position without having to calculate their speed
+    var username: String { get }
+}
+
+protocol PlayerProtocol: LoginUser, Mob {
+    var magicPoints: Int { get set } //if we don't care about other player's magic points...
+    var experience: Int { get set }
+}
+
+protocol MonsterProtocol: Mob {
+    var type: MonsterType { get }
+}
+
+///Movable Object
+protocol Mob: Fightable, Identifiable, Nameable {
+    var movementPoints: Int { get set } //in a turn-based game, this could be movement points, in a real time game, this could be movement speed
+}
+
 extension Nameable {
     var description: String {
-        name
+        name //implicit return
     }
 }
 
@@ -65,7 +68,7 @@ enum MonsterType: String {
 }
 
 
-struct CurrentPlayer: Player {
+struct Player: PlayerProtocol {
     var birthday: Date?
     var damageDealt: Int
     var damageAbsorbed: Int
@@ -82,7 +85,7 @@ struct CurrentPlayer: Player {
     var username: String
 
     var name: String {
-        "\(username) with \(movementPoints) movement points"
+        "\(username) with \(hitPoints) hit points deals \(damageDealt) damage, and absorbs \(damageAbsorbed) damage"
     }
 }
 
@@ -130,10 +133,32 @@ struct Monster: MonsterProtocol {
     }
 
     var name: String {
-        "\(type.rawValue) with \(movementPoints) movement points"
+        "\(type.rawValue) with \(hitPoints) hit points deals \(damageDealt) damage, and absorbs \(damageAbsorbed) damage"
     }
 }
 
+let goblin = Monster(type: .goblin)
+let player = Player(birthday: Date(),
+                           damageDealt: 5,
+                           damageAbsorbed: 5,
+                           email: "me@me.com",
+                           experience: 0,
+                           firstName: "Kenny",
+                           hitPoints: 100,
+                           id: 1,
+                           lastName: nil,
+                           magicPoints: 10,
+                           movementPoints: 5,
+                           password: "123456",
+                           phone: nil,
+                           username: "froggomad")
+
+var mobs: [Mob] = [
+    goblin,
+    player
+]
+
+print(mobs)
 
 /*
 
