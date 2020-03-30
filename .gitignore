@@ -129,4 +129,7 @@ iOSInjectionProject/
 ### Xcode Patch ###
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+## UMDX
+*.umdx
+
 # End of https://www.gitignore.io/api/osx,xcode,swift
