@@ -1,1 +1,42 @@
 # Data Modeling Guided Project
+
+- [ ]  🛑 Remember, protocols guarantee that types conforming to them will have certain properties and/or methods
+- [ ]  🛑 Remember, types can conform to multiple protocols and protocols can inherit multiple protocols
+- [ ]  🛑 Instead of making one big protocol, we can make several smaller ones, then combine them into larger ones as necessary. Example Player, User, LoginUser (all players are users, only the current player is a LoginUser)
+- [ ]  Lets start by making a protocol for a user that can log in locally (protocol LoginUser)
+    - [ ]  var id: Int
+    - [ ]  var username: String
+    - [ ]  var email: String
+    - [ ]  var password: String
+    - [ ]  var phone: Int?
+    - [ ]  var birthday: Date? { get }
+- [ ]  Lets make a protocol for other users to conform to protocol User
+    - [ ]  var id: Int
+    - [ ]  var username: String { get }
+    - [ ]  🛑 We just used those. This is a perfect opportunity for another protocol
+    - [ ]  Let's make a protocol called Identifiable that holds a name and id
+- [ ]  Let's refactor and conform User to Identifiable and LoginUser to User
+    - [ ]  This way we get the username property
+    - [ ]  🛑 Does everyone understand what we just did?
+- [ ]  Let's make a Player Protocol called PlayerProtocol and finish setting up our user.
+    - [ ]  hitPoints: Int { get set }
+    - [ ]  damageDealt: Int { get set }
+    - [ ]  damageAbsorbed: Int { get set }
+- [ ]  Let's make a Monster Protocol called MonsterProtocol and set up our monster.
+    - [ ]  hitPoints: Int { get set }
+    - [ ]  damageDealt: Int { get set }
+    - [ ]  damageAbsorbed: Int { get set }
+    - [ ]  We'll probably have lots of monsters. Let's make a way to set up our monster easily
+        - [ ]  enum MonsterType (we'll use this later)
+        - [ ]  var type: MonsterType
+    - [ ]  Oh look, we have some things in common. How about a fightable protocol to store hitPoints, damageDealt, and DamageAbsorbed?
+    - [ ]  We need our player and monster to conform to Fightable and Identifiable, but Monster has a custom property. How can we refactor to include a common type? We also need movement speed or points (realtime or turn based)
+    - [ ]  Let's make a player struct
+    - [ ]  Let's make a struct for other players
+    - [ ]  Let's make a monster struct
+        - [ ]  lets setup our init using the monster type
+    - [ ]  Let's make an instance of player and an instance of monster. Notice we can store them in the same array if the array conforms to a protocol both types conform to
+        - [ ]  var mobs: [Mob] = [ goblin, player ]
+        - [ ]  print(mobs)
+        - [ ]  Let's clean that up (CustomStringConvertible on Identifiable)
+        - [ ]  Provide default implementation for Identifiable so that description returns name
