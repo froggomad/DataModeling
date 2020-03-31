@@ -53,19 +53,19 @@ protocol MonsterProtocol: Mob {
     var type: MonsterType { get set }
 }
 
-struct Player: PlayerProtocol, Mob {
+struct Player: PlayerProtocol {
     var magicPoints: Int
     var experience: Int
-    var movementPoints: Int
     var email: String
     var password: String
     var phone: Int?
     var birthday: Date?
+    var movementPoints: Int
+    var id: Int
+    var name: String
     var hitPoints: Int
     var damageDealt: Int
     var damageAbsorbed: Int
-    var name: String
-    var id: Int
 }
 
 struct RemotePlayer: RemoteUser {
@@ -117,17 +117,17 @@ struct Monster: MonsterProtocol {
 
 let goblin = Monster(type: .goblin)
 let player = Player(magicPoints: 10,
-                    experience: 0,
-                    movementPoints: 5,
-                    email: "some@some.com",
+                    experience: 100,
+                    email: "me@me.com",
                     password: "123456",
                     phone: nil,
                     birthday: nil,
+                    movementPoints: 10,
+                    id: 9001,
+                    name: "froggomad",
                     hitPoints: 100,
                     damageDealt: 10,
-                    damageAbsorbed: 2,
-                    name: "froggomad",
-                    id: 9001)
+                    damageAbsorbed: 3)
 let user = RemotePlayer(username: "OtherUser", id: 1)
 
 var mobs: [Mob] = [
